@@ -27,5 +27,5 @@ outputs/*
 # All new files coming out of buildInputs
 inputs/example_inputs/*/optional_inputs.m
 inputs/example_inputs/*/build_inputs.m
-inputs/example_inputs/*/simulated_inputs.mat
-inputs/example_inputs/*/optional_inputs.mat
+**/simulated_inputs.mat
+**/optional_inputs.mat
