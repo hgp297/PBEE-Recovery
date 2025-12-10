@@ -48,7 +48,12 @@
 % ----------
 % optional_inputs.m
 
-clear
+% could we remove this clear line, assuming that the user clears the workspace ahead of time?
+% the idea is that some user-driver would clear the workspace, and only then call this function
+% then, removing this line allows for the driver to safely call build_inputs without deleting their
+% wrapper-defined variables
+% for now, this should be safe because the exception are unique names
+clearvars -except path_to_matcode seed model_name
 close all
 clc 
 rehash
