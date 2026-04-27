@@ -1,3 +1,12 @@
+% This version readapts built_inputs. However, users are required
+% to provide the pathing for the static table beforehand to prevent
+% paths having to be defined herein.
+% These are:
+% component_attributes
+% damage_state_attribute_mappings
+% subsystems
+% tenant_function_requirements
+
 % This script builds the matlab datafile inputs required for the
 % reoccupancy and functional recovery assessment of a building given
 % simulated damage.
@@ -56,14 +65,13 @@ rehash
 % This is currently set to the default directory, relative to this example
 % inputs directory. If the location of this directory differs, updat the 
 % static_data_dir variable below. 
-static_data_dir = ['..' filesep '..' filesep '..' filesep 'static_tables'];
+
+% This is deprecated in favor of predefining the static data relative to
+% runner file location
 
 %% PULL STATIC DATA
 % Load required data tables
-component_attributes = readtable([static_data_dir filesep 'component_attributes.csv']);
-damage_state_attribute_mapping = readtable([static_data_dir filesep 'damage_state_attribute_mapping.csv']);
-subsystems = readtable([static_data_dir filesep 'subsystems.csv']);
-tenant_function_requirements = readtable([static_data_dir filesep 'tenant_function_requirements.csv']);
+% this is done beforehand in the runner file
 
 %% LOAD BUILDING DATA
 % This data is specific to the building model and will need to be created
