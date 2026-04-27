@@ -30,7 +30,6 @@ seed = 985;
 % quick_runner(model_name, exp_name, path_to_matcode, seed)
 
 
-path_to_matcode = fullfile('.');
 run_all_models(path_to_matcode)
 %% all folders
 
@@ -52,22 +51,36 @@ function run_all_models(path_to_source_code)
         exp_dirs = dir(model_path);
         exp_dirs = exp_dirs([exp_dirs.isdir]);
         exp_dirs = exp_dirs(~ismember({exp_dirs.name}, {'.', '..'}));
-
-        for e = 1:length(exp_dirs)
-            exp_name = exp_dirs(e).name;
-
+        disp(exp_dirs)
+        if isempty(exp_dirs)
+            exp_name = "";
             fprintf('Running %s / %s\n', model_name, exp_name);
-
             for seed = 1:20
                 fprintf('  Seed %d\n', seed);
-                quick_runner(model_name, exp_name, path_to_source_code, seed);
-
-%                 try
-%                     quick_runner(model_name, exp_name, path_to_source_code, seed);
-%                 catch ME
-%                     warning('Failed: %s / %s / seed %d\n%s', ...
-%                         model_name, exp_name, seed, ME.message);
-%                 end
+                try
+                        quick_runner(model_name, exp_name, path_to_source_code, seed);
+                    catch ME
+                        warning('Failed: %s / %s / seed %d\n%s', ...
+                            model_name, exp_name, seed, ME.message);
+                end
+            end
+        else
+            for e = 1:length(exp_dirs)
+                exp_name = exp_dirs(e).name;
+    
+                fprintf('Running %s / %s\n', model_name, exp_name);
+    
+                for seed = 1:20
+                    fprintf('  Seed %d\n', seed);
+    %                 quick_runner(model_name, exp_name, path_to_source_code, seed);
+    
+                    try
+                        quick_runner(model_name, exp_name, path_to_source_code, seed);
+                    catch ME
+                        warning('Failed: %s / %s / seed %d\n%s', ...
+                            model_name, exp_name, seed, ME.message);
+                    end
+                end
             end
         end
     end
