@@ -43,6 +43,8 @@ function run_all_models(path_to_source_code)
     % remove . .. and Inputs2Copy
     model_dirs = model_dirs(~ismember({model_dirs.name}, {'.', '..'}));
 
+    % iterate through all model folders
+    % iterate through IM folders if found
     for m = 1:length(model_dirs)
         model_name = model_dirs(m).name;
 
@@ -50,9 +52,13 @@ function run_all_models(path_to_source_code)
         exp_dirs = dir(model_path);
         exp_dirs = exp_dirs([exp_dirs.isdir]);
         exp_dirs = exp_dirs(~ismember({exp_dirs.name}, {'.', '..'}));
+
+        % if no nested IM folders, change path accordingly
         if isempty(exp_dirs)
             exp_name = "";
             fprintf('Running %s / %s\n', model_name, exp_name);
+
+            % run 20 seeds of experiments
             for seed = 1:20
                 fprintf('  Seed %d\n', seed);
                 try
@@ -62,6 +68,8 @@ function run_all_models(path_to_source_code)
                             model_name, exp_name, seed, ME.message);
                 end
             end
+
+        % if nested IM folders, add one more level to path
         else
             for e = 1:length(exp_dirs)
                 exp_name = exp_dirs(e).name;
@@ -70,7 +78,6 @@ function run_all_models(path_to_source_code)
     
                 for seed = 1:20
                     fprintf('  Seed %d\n', seed);
-    %                 quick_runner(model_name, exp_name, path_to_source_code, seed);
     
                     try
                         quick_runner(model_name, exp_name, path_to_source_code, seed);
